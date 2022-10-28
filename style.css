@@ -1,0 +1,21 @@
+#first {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100%;
+}
+
+p, h1 {
+  text-align: center;
+  margin: 0px;
+}
+
+#error {
+  height: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+
+

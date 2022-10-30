@@ -18,8 +18,8 @@ int strcmpsi(char* buffer, const char* str) {
   return 0;
 }
 
-// for send html file to client
-void sendhtml(int sock, char* filename) {
+// send file to client
+void sendfile(int sock, char* filename) {
   FILE *fp;
   fp = fopen(filename,"r");
   fseek(fp,0,SEEK_END);
@@ -33,18 +33,6 @@ void sendhtml(int sock, char* filename) {
   send(sock,buffer,buffersize+19,0);
 }
 
-
-// for send css/javascript file to client
-void sendtxtfile(int sock, char *filename) {
-  FILE *fp;
-  fp = fopen(filename,"r");
-  fseek(fp,0,SEEK_END);
-  int buffersize = ftell(fp);
-  fseek(fp,0,SEEK_SET);
-  char buffer[buffersize];
-  fread(buffer,buffersize,1,fp);
-  send(sock,buffer,buffersize,0);
-}
 
 int main() {
   int server_socket, client_socket;
@@ -71,13 +59,13 @@ int main() {
     int recvb = recv(client_socket,buffer,4000,0);
     if(recvb > 0) {
       if(strcmpsi(buffer,"GET / ") == 0) {
-        sendhtml(client_socket,"../index.html");
+        sendfile(client_socket,"../index.html");
       }
       else if(strcmpsi(buffer,"GET /style.css") == 0) {
-        sendtxtfile(client_socket,"../style.css");
+        sendfile(client_socket,"../style.css");
       }
       else {
-        sendhtml(client_socket,"../error.html");
+        sendfile(client_socket,"../error.html");
       }
     }
     close(client_socket);
